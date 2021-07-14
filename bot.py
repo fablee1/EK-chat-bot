@@ -1,5 +1,6 @@
 #!venv/bin/python
 import logging
+from utils.apscheduler import start_apscheduler
 
 from aiogram import executor
 from aiogram.utils.executor import start_webhook
@@ -12,12 +13,12 @@ from data.config import WEBHOOK_PATH, WEBAPP_HOST, WEBAPP_PORT, WEBHOOK_URL
 async def on_startup(dp):
     logging.warning(
         'Starting connection. ')
-    # await create_db()
     await bot.set_webhook(WEBHOOK_URL, drop_pending_updates=True)
 
 
 async def on_startup_dev(dp):
     print('started polling')
+    await start_apscheduler()
     # await create_db()
 
 

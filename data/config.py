@@ -8,13 +8,13 @@ from pathlib import Path
 BOT_MODE = env.str("BOT_MODE")
 
 TOKEN = env.str("TOKEN")
-admin_id = env.int("ADMIN_ID")
-db_user = env.str("DB_USER")
-db_pass = env.str("DB_PASS")
-host = env.str("HOST", None)
-database = env.str("DB_NAME")
-
+DB_CONN = env.str("DB_CONN")
+MAIN_CHAT_ID=env.str("MAIN_CHAT_ID")
 HEROKU_APP_NAME = env.str('HEROKU_APP_NAME', None)
+
+TRON_PRIV_KEY = env.str('TRON_PRIV_KEY')
+TRON_ADD = env.str('TRON_ADD')
+TRON_USDT_CONTRACT_ADD = env.str('TRON_USDT_CONTRACT_ADD')
 
 # webhook settings
 WEBHOOK_HOST = f'https://{HEROKU_APP_NAME}.herokuapp.com'
