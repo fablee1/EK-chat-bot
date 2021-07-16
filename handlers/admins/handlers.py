@@ -1,9 +1,10 @@
+import asyncio
 from keyboards.admins import admins_kb
 from filters.isAdmin import IsAdmin
 from utils.db.database import DBCommands
 from aiogram import types
-from load_all import dp
-from aiogram.dispatcher.filters.builtin import ChatTypeFilter, Text
+from load_all import dp, bot
+from aiogram.dispatcher.filters.builtin import ChatTypeFilter, ForwardedMessageFilter, Text
 
 db = DBCommands()
 
@@ -26,3 +27,14 @@ async def exit_admin_panel(call: types.CallbackQuery):
 async def admin_stats_back(call: types.CallbackQuery):
     await call.answer()
     await enter_admin_panel(call.message)
+
+# @dp.message_handler(ChatTypeFilter(['private']), IsAdmin(), ForwardedMessageFilter(True))
+# async def get_info_about_forward(message: types.Message):
+    # for x in range(1000):
+    #     try:
+    #         await bot.get_chat_member(694669934, 694669934)
+    #         is_in = True
+    #     except:
+    #         is_in = False
+    #     await message.answer(is_in)
+    #     await asyncio.sleep(0.1)

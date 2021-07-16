@@ -38,9 +38,8 @@ async def admin_change_limit_new(message: types.Message, state: FSMContext):
         return await message.answer('Лимит должен быть числом, попробуй ещё раз или нажми отменить.', reply_markup=await admins_kb.cancel_state_kb('cancel_limit_change'))
     elif int(new_limit) <= 0:
         return await message.answer('Лимит должен быть положительным числом, попробуй ещё раз или нажми отменить.', reply_markup=await admins_kb.cancel_state_kb('cancel_limit_change'))
-    msg = f"Новый лимит будет: {new_limit}\n\nНажми подвтердить или отменить."
-    await message.edit_text(msg)
-    await message.edit_reply_markup(reply_markup=await admins_kb.cancel_state_kb('cancel_limit_change'))
+    msg = f"Новый лимит будет: {new_limit}\n\nНажми подтвердить или отменить."
+    await message.answer(msg, reply_markup=await admins_kb.admin_confirm_limits_kb())
     await EditResetLimit.Confirm.set()
     await state.update_data(new_limit=int(new_limit))
 

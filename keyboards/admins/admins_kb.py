@@ -93,3 +93,8 @@ async def admin_confirm_limits_kb():
     kb.add(InlineKeyboardButton('Подтвердить', callback_data="confirm_reset_limit_change"))
     kb.add(InlineKeyboardButton('Назад', callback_data='cancel_limit_change'))
     return kb
+
+async def admin_prize_main_kb():
+    kb = InlineKeyboardMarkup()
+    kb.add(InlineKeyboardButton('Запустить розыгрыш сейчас', callback_data="launch_prize_now"))
+    return kb

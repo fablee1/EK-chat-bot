@@ -19,3 +19,9 @@ class AchievementModel:
         self.message = message
         self.is_prize = is_prize
         self.prize_name = 'Приз неопределён'
+
+class PrizeModel:
+    def __init__(self):
+        self.start_date = datetime.now()
+        self.status = "active"
+        self.participants = []

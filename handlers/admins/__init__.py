@@ -1,1 +1,1 @@
-from . import handlers, stats, congratulations, limits
+from . import handlers, stats, congratulations, limits, prizes
