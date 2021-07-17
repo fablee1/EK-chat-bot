@@ -1,4 +1,4 @@
-import asyncio
+from asyncio import sleep
 from utils.db.database import DBCommands
 from aiogram import types
 from load_all import dp
@@ -27,7 +27,7 @@ async def increase_reputation(message: types.Message):
                     await message.answer(goal['message'].format(user=f"@{replied_to.username}", rep=replied_user['reputation']+1, p_n=goal['prize_name']))
         else:
             m = await message.answer(f"@{m_from.username}, ты превысил лимит!")
-    await asyncio.sleep(5)
+    await sleep(5)
     await m.delete()
 
 @dp.message_handler(ChatTypeFilter(['group', 'supergroup']), content_types=types.ContentType.NEW_CHAT_MEMBERS)

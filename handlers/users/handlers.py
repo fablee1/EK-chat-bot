@@ -1,11 +1,8 @@
-import asyncio
-
 from aiogram.dispatcher.storage import FSMContext
 from utils.db.lib import check_valid_tron_address
 from states.user_states import AddWallet
 
 from aiogram.types.message import ParseMode
-from six import text_type
 from handlers.users.keyboards import main_kb, prize_main_kb
 from utils.db.database import DBCommands
 from aiogram import types

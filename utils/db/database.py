@@ -1,8 +1,7 @@
-import asyncio
+from asyncio import sleep
 from datetime import datetime
 from utils.db.models import PrizeModel, UserModel
 from data.config import DB_CONN, MAIN_CHAT_ID, TO_SUBSCRIBE
-from aiogram import types
 import motor.motor_asyncio
 from load_all import bot
 
@@ -114,7 +113,7 @@ class DBCommands:
         try:
             for chat in TO_SUBSCRIBE:
                 await bot.get_chat_member(chat, user_id)
-                await asyncio.sleep(0.2)
+                await sleep(0.2)
             subscribed = True
         except:
             subscribed = False

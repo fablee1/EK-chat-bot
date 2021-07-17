@@ -1,7 +1,5 @@
 from aiogram.types.inline_keyboard import InlineKeyboardButton, InlineKeyboardMarkup
-from aiogram.utils import callback_data
 from aiogram.utils.callback_data import CallbackData
-from aiohttp.helpers import call_later
 
 congrats_list_cb = CallbackData('congrats_list', 'page', sep=';')
 congrats_choose_is_prize_cb = CallbackData('congrats_choose_is_prize', 'action', sep=';')

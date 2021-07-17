@@ -5,8 +5,6 @@ from utils.apscheduler import start_apscheduler
 from aiogram import executor
 from aiogram.utils.executor import start_webhook
 from load_all import dp, bot
-import handlers
-# from database import create_db
 from data.config import WEBHOOK_PATH, WEBAPP_HOST, WEBAPP_PORT, WEBHOOK_URL
 
 
@@ -17,9 +15,7 @@ async def on_startup(dp):
 
 
 async def on_startup_dev(dp):
-    print('started polling')
     await start_apscheduler()
-    # await create_db()
 
 
 def main():

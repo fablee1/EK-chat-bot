@@ -1,16 +1,10 @@
 from utils.prize import start_airdrop
-from utils.apscheduler import get_next_run_time
-from utils.db.models import AchievementModel
-from aiogram.dispatcher.storage import FSMContext
-from states.admin_states import AddCongrats, EditCongrats, EditResetLimit
-from aiogram.types.message import ParseMode
 from keyboards.admins import admins_kb
 from filters.isAdmin import IsAdmin
 from utils.db.database import DBCommands
 from aiogram import types
 from load_all import dp
 from aiogram.dispatcher.filters.builtin import ChatTypeFilter
-from aiogram.utils.markdown import escape_md
 
 db = DBCommands()
 

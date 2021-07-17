@@ -1,4 +1,4 @@
-import asyncio
+from asyncio import sleep
 from handlers.users.keyboards import chat_prize_trans
 from utils.db.database import DBCommands
 from tronpy import Tron
@@ -34,7 +34,7 @@ async def check_all_subscribed(participants):
                 legit_participants.append(participant)
         except:
             pass
-        await asyncio.sleep(0.1)
+        await sleep(0.1)
     await db.check_pre_prize_draw(legit_participants)
     return legit_participants
 

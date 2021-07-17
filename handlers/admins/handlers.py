@@ -1,10 +1,9 @@
-import asyncio
 from keyboards.admins import admins_kb
 from filters.isAdmin import IsAdmin
 from utils.db.database import DBCommands
 from aiogram import types
-from load_all import dp, bot
-from aiogram.dispatcher.filters.builtin import ChatTypeFilter, ForwardedMessageFilter, Text
+from load_all import dp
+from aiogram.dispatcher.filters.builtin import ChatTypeFilter
 
 db = DBCommands()
 
