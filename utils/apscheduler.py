@@ -28,5 +28,6 @@ def get_next_run_time(id):
 
 scheduler.add_job(reset_limit, trigger='cron', hour=00, id="reset_reputation", replace_existing=True, misfire_grace_time=60*60*12)
 
+
 async def start_apscheduler():
     scheduler.start()

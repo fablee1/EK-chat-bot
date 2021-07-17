@@ -113,9 +113,7 @@ class DBCommands:
     async def check_user_subscribed(self, user_id):
         try:
             for chat in TO_SUBSCRIBE:
-                print(chat, user_id)
-                check = await bot.get_chat_member(chat, user_id)
-                print(check)
+                await bot.get_chat_member(chat, user_id)
                 await asyncio.sleep(0.2)
             subscribed = True
         except:
@@ -138,6 +136,9 @@ class DBCommands:
         participating = (await Prizes.find_one({"status": "active"}))['participants']
         return participating
 
-    async def finish_prize_draw(self, legit_participants, prize):
-        await Prizes.update_one({"status": "active"}, {"$set": { "status": "finished", "legit_participants": legit_participants, "prize": prize, "end_date": datetime.now()}})
+    async def finish_prize_draw(self, legit_participants, prize, transaction, winner, status='finished'):
+        await Prizes.update_one({"status": "active"}, {"$set": { "winner": winner, "transaction": transaction, "status": status, "legit_participants": legit_participants, "prize": prize, "end_date": datetime.now()}})
         await Prizes.insert_one(PrizeModel().__dict__)
+    
+    async def add_tron_wallet(self, id, wallet):
+        await Users.update_one({"_id": id}, {"$set": {"address": wallet}})

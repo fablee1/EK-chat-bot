@@ -1,8 +1,9 @@
 import asyncio
+from handlers.users.keyboards import chat_prize_trans
 from utils.db.database import DBCommands
 from tronpy import Tron
 from tronpy.keys import PrivateKey
-from data.config import MAIN_CHAT, TRON_PRIV_KEY, TRON_ADD, TRON_USDT_CONTRACT_ADD
+from data.config import MAIN_CHAT_ID, TRON_PRIV_KEY, TRON_ADD, TRON_USDT_CONTRACT_ADD
 from load_all import bot
 from random import random
 from math import floor
@@ -15,7 +16,7 @@ async def transfer_prize(add, amount):
     client = Tron()
     contract = client.get_contract(TRON_USDT_CONTRACT_ADD)
     txb = (
-        contract.functions.transfer(add, amount*1000000)
+        contract.functions.transfer(add, int(floor(amount*1000000)))
         .with_owner(TRON_ADD)
         .fee_limit(20_000_000)
         .build()
@@ -28,7 +29,7 @@ async def check_all_subscribed(participants):
     legit_participants = []
     for participant in participants:
         try:
-            info = await bot.get_chat_member(MAIN_CHAT, participant)
+            info = await bot.get_chat_member(MAIN_CHAT_ID, participant)
             if not info['status'] == 'left':
                 legit_participants.append(participant)
         except:
@@ -37,23 +38,39 @@ async def check_all_subscribed(participants):
     await db.check_pre_prize_draw(legit_participants)
     return legit_participants
 
+async def get_random_person(participants):
+    rand_person = floor(random() * len(participants))
+    id = participants[rand_person]
+    user = await db.get_user_by_id(id)
+    return user
+
+async def send_chat_prize_msg(winner, trans=None, finished=True, participant_count=0):
+    msg = ("Розыгрыш закончен!\n\n"
+            f"Участвовало - {participant_count}\n"
+            f"Поздравляем победителя - @{winner['username']}!\n\n"
+            "Проверь свой кошелёк 💰"
+    )
+
+    msg_wait = ("Розыгрыш закончен!\n\n"
+            f"Участвовало - {participant_count}\n"
+            f"Поздравляем победителя - @{winner['username']}!\n\n"
+            "Победитель не указал кошелёк. У него есть 12 часов чтобы забрать приз."
+    )
+
+    await bot.send_message(MAIN_CHAT_ID, msg if finished else msg_wait, reply_markup=await chat_prize_trans(trans) if finished else None)
+
 async def start_airdrop():
     all_participants = await db.get_all_participating_in_draw()
     legit_participants = await check_all_subscribed(all_participants)
 
-    # If no legit participants do nothing
-    if len(legit_participants) == 0:
-        # return await bot.send_message(564143733, "Нет участников.")
-        return
+    transaction_id = None
+    winner = None
 
-    # Choose random person
-    rand_person = floor(random() * len(legit_participants))
-    id = legit_participants[rand_person]
-    user_wallet = await db.get_user_by_id(id)
-    prize = (await db.get_settings())['prize']
-
-    # Send prize
-    # result = await transfer_prize(user_wallet['address'], prize)
-    await db.finish_prize_draw(legit_participants, prize)
-    # await bot.send_message(id, result)
-
+    if len(legit_participants) > 0:
+        user = await get_random_person(legit_participants)
+        winner = user
+        prize = (await db.get_settings())['prize']
+        result = await transfer_prize(user['address'], prize)
+        transaction_id = result['id']
+        await send_chat_prize_msg(user, transaction_id, participant_count=len(legit_participants))
+        await db.finish_prize_draw(legit_participants, prize, transaction_id, winner)

@@ -7,12 +7,11 @@ from pathlib import Path
 
 BOT_MODE = env.str("BOT_MODE")
 
-MAIN_CHAT = -1001320961407
+MAIN_CHAT_ID = -1001320961407
 TO_SUBSCRIBE = [-1001320961407]
 
 TOKEN = env.str("TOKEN")
 DB_CONN = env.str("DB_CONN")
-MAIN_CHAT_ID=env.str("MAIN_CHAT_ID")
 HEROKU_APP_NAME = env.str('HEROKU_APP_NAME', None)
 
 TRON_PRIV_KEY = env.str('TRON_PRIV_KEY')

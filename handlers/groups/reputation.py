@@ -21,7 +21,10 @@ async def increase_reputation(message: types.Message):
             m = await message.answer(msg)
             goal = await db.check_rep_goal(replied_user['reputation'] + 1)
             if goal:
-                await message.answer(goal['message'].format(user=f"@{replied_to.username}", rep=replied_user['reputation']+1))
+                if goal['is_prize']:
+                    await message.answer(goal['message'].format(user=f"@{replied_to.username}", rep=replied_user['reputation']+1))
+                else:
+                    await message.answer(goal['message'].format(user=f"@{replied_to.username}", rep=replied_user['reputation']+1, p_n=goal['prize_name']))
         else:
             m = await message.answer(f"@{m_from.username}, ты превысил лимит!")
     await asyncio.sleep(5)
@@ -31,7 +34,3 @@ async def increase_reputation(message: types.Message):
 async def new_chat_member(message: types.Message):
     new_users = message.new_chat_members
     await db.add_new_users(new_users)
-
-@dp.message_handler(ChatTypeFilter(['group', 'supergroup']))
-async def check(message: types.Message):
-    await message.answer(message)
