@@ -6,15 +6,12 @@ async def main_kb():
     kb = ReplyKeyboardMarkup(
         keyboard=[
             [
-                KeyboardButton('📈 Мой рейтинг'),
-                KeyboardButton('ℹ Инфо')
+                KeyboardButton('📈 Мой рейтинг 📈'),
+                KeyboardButton('ℹ Условия ℹ')
             ],
             [
-               KeyboardButton('🎁 Розыгрыш! 🎁')
-            ],
-            [
-                KeyboardButton('🔗 Ссылки'),
-                KeyboardButton('👛 Кошелёк')
+               KeyboardButton('🎁 Розыгрыш! 🎁'),
+               KeyboardButton('🔗 Ссылки 🔗'),
             ],
         ], resize_keyboard=True
     )

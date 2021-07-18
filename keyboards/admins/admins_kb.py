@@ -92,7 +92,12 @@ async def admin_confirm_limits_kb():
     kb.add(InlineKeyboardButton('Назад', callback_data='cancel_limit_change'))
     return kb
 
-async def admin_prize_main_kb():
+async def admin_prize_main_kb(running=False):
     kb = InlineKeyboardMarkup()
+    if running:
+        kb.add(InlineKeyboardButton('Остановить розыгрыши!', callback_data="stop_raffles"))
+    else:
+        kb.add(InlineKeyboardButton('Возобновить розыгрыши!', callback_data="schedule_raffles"))
     kb.add(InlineKeyboardButton('Запустить розыгрыш сейчас', callback_data="launch_prize_now"))
+    kb.add(InlineKeyboardButton('Назад', callback_data='back_to_admin_main'))
     return kb

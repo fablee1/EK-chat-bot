@@ -17,7 +17,7 @@ async def start(message: types.Message):
     await db.get_user(message.from_user)
     await message.answer(f"Привет, {message.from_user.full_name}! Приветствуем тебя в официальном боте чата @ek_cryptogallery_chat", reply_markup=await main_kb())
 
-@dp.message_handler(ChatTypeFilter('private'), Text(equals="📈 Мой рейтинг"))
+@dp.message_handler(ChatTypeFilter('private'), Text(equals="📈 Мой рейтинг 📈"))
 async def get_rating(message: types.Message):
     user_data = await db.get_user(message.from_user)
     if user_data:
@@ -27,15 +27,44 @@ async def get_rating(message: types.Message):
         await message.answer("Невозможно получить статистику сейчас, попробуйте позже!")
 
 
+# Handler for info
+@dp.message_handler(ChatTypeFilter('private'), Text(equals="ℹ Условия ℹ"))
+async def get_terms(message: types.Message):
+    msg_main = escape_md("Получай и отдавай баллы репутации за общение в Чате!\n"
+    "Раз в сутки каждому участнику Чата даётся 3 балла репутации – чтобы отдать их другим))\n"
+    "Баллами можно поднять рейтинг другому участнику (копить баллы или тратить на себя нельзя). Для этого достаточно написать в ответ на понравившееся сообщение значок «+». Система удалит твой плюсик через пару секунд, рейтинг автора понравившегося сообщения повысится на +1 балл.\n"
+    "Постите интересные мысли, собственный анализ рынка, чужие новости со своим мнением – всё, что будет полезно Народу, Чату и Отечеству))\n\n\n"
+    "Достигните определённого количества баллов, чтобы разблокировать следующие достижения:\n\n")
+    msg_footer = escape_md("За спам, реферальные ссылки, попытки накрутки Рейтинга и прочие непотребства – бан ( эти вещи прекрасны, но не несут общественной пользы)).")
+    prizes = await db.get_prizes()
+    msg_prizes = "".join(map(lambda p: f"*{p['goal']}\.* " + escape_md(p["prize_name"]) + "\n", prizes))
+    msg = msg_main + msg_prizes + "\n\n" + msg_footer
+    await message.answer(msg, parse_mode=ParseMode.MARKDOWN_V2)
+
+
+# Handler for links
+@dp.message_handler(ChatTypeFilter('private'), Text(equals="🔗 Ссылки 🔗"))
+async def get_links(message: types.Message):
+    msg_main = ("Ниже ты можешь найти ссылки на всё что связано с @Ed\_Khan\n\n"
+    "*1\.*  Мониторинги \(аудит\) ручных стратегий:\n"
+    "*2\.*  Мониторинги \(аудит\) ботов:\n"
+    "*3\.*  Twitter: \n"
+    "*4\.*  TradingView: \n"
+    "*5\.*  Блог:")
+    await message.answer(msg_main, parse_mode=ParseMode.MARKDOWN_V2)
+
+
 # Code for Prize Handling
 @dp.message_handler(ChatTypeFilter('private'), Text(equals="🎁 Розыгрыш! 🎁"))
 async def participate_in_airdrop(message: types.Message):
     prize = (await db.get_settings())['prize']
     subscribed = await db.check_user_subscribed(message.from_user.id)
     participating = await db.user_participating(message.from_user.id)
-    wallet_added = not (await db.get_user_by_id(message.from_user.id))['address'] == None
+    wallet = (await db.get_user_by_id(message.from_user.id))['address']
+    wallet_added = not wallet == None
     main_msg = ("🎁 Ежедневный розыгрыш от *[EK Cryptogallery](https://t.me/edkhan_cryptogallery)*\!\n\n"
-                f"Сегодняшний приз *{escape_md(prize)}* USDT\.")
+                f"Сегодняшний приз *{escape_md(prize)}* USDT\.\n\n"
+                f"Адрес твоего кошелька: *{wallet if wallet_added else 'не указан'}*")
     await message.answer(main_msg, parse_mode=ParseMode.MARKDOWN_V2, reply_markup=await prize_main_kb(subscribed, participating, wallet_added))
 
 @dp.callback_query_handler(ChatTypeFilter('private'), text="prize_rules")

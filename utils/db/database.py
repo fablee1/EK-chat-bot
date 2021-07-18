@@ -141,3 +141,42 @@ class DBCommands:
     
     async def add_tron_wallet(self, id, wallet):
         await Users.update_one({"_id": id}, {"$set": {"address": wallet}})
+
+    async def get_prizes(self):
+        prizes = Goals.find({"is_prize": True}).sort("goal", 1)
+        prize_list = []
+        async for prize in prizes:
+            prize_list.append(prize)
+        return prize_list
+    
+    async def admin_get_stats(self):
+        users = Users.aggregate([{ "$group": {
+            "_id": 0,
+            "user_count": {
+                "$sum": 1
+            },
+            "total_rep_given": {
+                "$sum": "$rep_given"
+            },
+            "max_rep": {
+                "$max": "$reputation"
+            }
+        }}])
+        result_users = []
+        async for x in users:
+            result_users.append(x)
+        
+        prizes = Prizes.aggregate([{"$match": {"status": "finished"}},{ "$group": {
+            "_id": 0,
+            "total_raffles": {
+                "$sum": 1
+            },
+            "total_prize_sum": {
+                "$sum": "$prize"
+            }
+        }}])
+        result_prizes = []
+        async for y in prizes:
+            result_prizes.append(y)
+        result = [result_users, result_prizes]
+        return result

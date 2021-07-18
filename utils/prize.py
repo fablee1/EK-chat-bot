@@ -44,20 +44,14 @@ async def get_random_person(participants):
     user = await db.get_user_by_id(id)
     return user
 
-async def send_chat_prize_msg(winner, trans=None, finished=True, participant_count=0):
+async def send_chat_prize_msg(winner, trans=None, participant_count=0):
     msg = ("Розыгрыш закончен!\n\n"
             f"Участвовало - {participant_count}\n"
             f"Поздравляем победителя - @{winner['username']}!\n\n"
             "Проверь свой кошелёк 💰"
     )
 
-    msg_wait = ("Розыгрыш закончен!\n\n"
-            f"Участвовало - {participant_count}\n"
-            f"Поздравляем победителя - @{winner['username']}!\n\n"
-            "Победитель не указал кошелёк. У него есть 12 часов чтобы забрать приз."
-    )
-
-    await bot.send_message(MAIN_CHAT_ID, msg if finished else msg_wait, reply_markup=await chat_prize_trans(trans) if finished else None)
+    await bot.send_message(MAIN_CHAT_ID, msg, reply_markup=await chat_prize_trans(trans))
 
 async def start_airdrop():
     all_participants = await db.get_all_participating_in_draw()
