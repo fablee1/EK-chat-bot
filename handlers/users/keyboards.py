@@ -36,3 +36,9 @@ async def chat_prize_trans(transaction_id):
     kb = InlineKeyboardMarkup()
     kb.add(InlineKeyboardButton("Посмотреть транзакцию", url="https://tronscan.io/#/transaction/" + transaction_id))
     return kb
+
+async def back_to_prize_main():
+    kb = InlineKeyboardMarkup()
+    kb.add(InlineKeyboardButton("Назад", callback_data="back_to_prize_main"))
+    return kb
+

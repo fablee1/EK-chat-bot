@@ -8,7 +8,7 @@ from aiogram import types
 from load_all import dp
 from aiogram.dispatcher.filters.builtin import ChatTypeFilter
 from aiogram.utils.markdown import escape_md
-from utils.apscheduler import get_next_run_time
+from utils.scheduler import get_next_run_time
 
 db = DBCommands()
 

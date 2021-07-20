@@ -99,5 +99,13 @@ async def admin_prize_main_kb(running=False):
     else:
         kb.add(InlineKeyboardButton('Возобновить розыгрыши!', callback_data="schedule_raffles"))
     kb.add(InlineKeyboardButton('Запустить розыгрыш сейчас', callback_data="launch_prize_now"))
+    kb.add(InlineKeyboardButton('Поменять приз следующих розыгрышей', callback_data="change_prize_amount"))
     kb.add(InlineKeyboardButton('Назад', callback_data='back_to_admin_main'))
+    return kb
+
+
+# keyboard for chat msgs
+async def to_bot_kb():
+    kb = InlineKeyboardMarkup()
+    kb.add(InlineKeyboardButton('🤖 Перейти в бота 🤖', url="https://t.me/ektest1bot"))
     return kb

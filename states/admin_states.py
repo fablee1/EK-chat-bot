@@ -17,3 +17,6 @@ class EditCongrats(StatesGroup):
 class EditResetLimit(StatesGroup):
     EnterNumber = State()
     Confirm = State()
+
+class EditPrizeAmount(StatesGroup):
+    EnterPrize = State()

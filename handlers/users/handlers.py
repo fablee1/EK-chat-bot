@@ -3,7 +3,7 @@ from utils.db.lib import check_valid_tron_address
 from states.user_states import AddWallet
 
 from aiogram.types.message import ParseMode
-from handlers.users.keyboards import main_kb, prize_main_kb
+from handlers.users.keyboards import back_to_prize_main, main_kb, prize_main_kb
 from utils.db.database import DBCommands
 from aiogram import types
 from load_all import dp
@@ -30,42 +30,69 @@ async def get_rating(message: types.Message):
 # Handler for info
 @dp.message_handler(ChatTypeFilter('private'), Text(equals="ℹ Условия ℹ"))
 async def get_terms(message: types.Message):
-    msg_main = escape_md("Получай и отдавай баллы репутации за общение в Чате!\n"
-    "Раз в сутки каждому участнику Чата даётся 3 балла репутации – чтобы отдать их другим))\n"
-    "Баллами можно поднять рейтинг другому участнику (копить баллы или тратить на себя нельзя). Для этого достаточно написать в ответ на понравившееся сообщение значок «+». Система удалит твой плюсик через пару секунд, рейтинг автора понравившегося сообщения повысится на +1 балл.\n"
-    "Постите интересные мысли, собственный анализ рынка, чужие новости со своим мнением – всё, что будет полезно Народу, Чату и Отечеству))\n\n\n"
-    "Достигните определённого количества баллов, чтобы разблокировать следующие достижения:\n\n")
-    msg_footer = escape_md("За спам, реферальные ссылки, попытки накрутки Рейтинга и прочие непотребства – бан ( эти вещи прекрасны, но не несут общественной пользы)).")
+    msg_main = (escape_md("🎖 Получай и отдавай баллы Репутации за общение в Чате! 🙌\n"
+    "Раз в сутки каждому участнику Чата даётся 3 балла репутации – чтобы проголосовать ими за понравившийся контент или годные мысли 😎\n\n") +
+    "➕ *Для этого достаточно написать '\+' \(плюсик\) в ответ на понравившееся сообщение\.*\n"
+    + escape_md("⚙️ Система удалит твой плюсик через пару секунд, рейтинг автора понравившегося сообщения повысится на +1 балл.\n"
+    "❗️ Копить баллы или тратить на себя нельзя.\n"
+    "📝 Постите интересные мысли, собственный анализ рынка, чужие новости со своим мнением – всё, что будет полезно Народу, Чату и Отечеству!\n\n\n"
+    "🎁 Достигните определённого количества баллов, чтобы разблокировать следующие достижения:\n\n"))
+    msg_footer = escape_md("❗️ За спам, реферальные ссылки, попытки накрутки Репутации и прочие непотребства – ") + "*БАН\!*" + escape_md(" Эти вещи, конечно, прекрасны, но не несут общественной пользы 😄")
     prizes = await db.get_prizes()
     msg_prizes = "".join(map(lambda p: f"*{p['goal']}\.* " + escape_md(p["prize_name"]) + "\n", prizes))
     msg = msg_main + msg_prizes + "\n\n" + msg_footer
     await message.answer(msg, parse_mode=ParseMode.MARKDOWN_V2)
 
-
 # Handler for links
 @dp.message_handler(ChatTypeFilter('private'), Text(equals="🔗 Ссылки 🔗"))
 async def get_links(message: types.Message):
-    msg_main = ("Ниже ты можешь найти ссылки на всё что связано с @Ed\_Khan\n\n"
-    "*1\.*  Мониторинги \(аудит\) ручных стратегий:\n"
-    "*2\.*  Мониторинги \(аудит\) ботов:\n"
-    "*3\.*  Twitter: \n"
-    "*4\.*  TradingView: \n"
-    "*5\.*  Блог:")
-    await message.answer(msg_main, parse_mode=ParseMode.MARKDOWN_V2)
+    msg_main = ("🗞 *Ниже ты можешь найти всё что связано с @Ed\_Khan*\n\n"
+    "1️⃣ *Мониторинги \(аудит\) ручных стратегий:*\n"
+    "   \"*[CryptoGallery: Edward K\.](https://www.equite.io/en/L37vzqo6E0)*\"\n"
+    "   \"*[CryptoGallery: NA CHUI](https://www.equite.io/en/0p8IKWxW4R)*\"\n"
+    "   \"*[CryptoGallery: BitMEX](https://www.equite.io/en/f5zDEbAiJq)*\"\n\n"
+    "2️⃣ *Мониторинги \(аудит\) ботов:*\n"
+    "   *InFractals:*\n"
+    "       \"*[Mod\-1\. H4\.](https://www.equite.io/en/O3CAXQA9I8)*\""
+    "   \"*[Mod\-2\. H4\.](https://www.equite.io/en/vZ7vcZWATE)*\"\n"
+    "       \"*[Mod\-3\. H2\.](https://www.equite.io/en/uGlvxjyhSd)*\""
+    "   \"*[Mod\-4\. H1\.](https://www.equite.io/en/HkuYPRNm-j)*\"\n"
+    "       \"*[Mod\-5\. H2\.](https://www.equite.io/en/eAwwePk5aZ)*\""
+    "   \"*[Mod\-6\. H1\.](https://www.equite.io/en/r_IwoP9OfV)*\"\n"
+    "   *Ramm:*\n"
+    "       \"*[Only BTCUSDT\.](https://www.equite.io/en/U6fl3JyB6C)*\""
+    "   \"*[Mod\-1\.](https://www.equite.io/en/H6J1js-oYN)*\"\n"
+    "       \"*[Mod\-2\.](https://www.equite.io/en/igeHrx0k2S)*\""
+    "   \"*[Mod\-3\.](https://www.equite.io/en/1XDM4VC9Xz)*\"\n"
+    "   *Utopia:*\n"
+    "       \"*[Mod\-1\.](https://www.equite.io/en/O2fHjEbyPq)*\""
+    "   \"*[Mod\-2\.](https://www.equite.io/en/FNEhEfdSMe)*\"\n"
+    "       \"*[New\.](https://www.equite.io/en/RH77PgB6GU)*\""
+    "   \"*[2 pairs\.](https://www.equite.io/en/vsQN-fwsP4)*\"\n"
+    "       \"*[Half\.](https://www.equite.io/en/DCl48IJy78)*\"\n\n"
+    "3️⃣ *Ссылки на блоги / сети / ресурсы:*\n"
+    "   • *[Скидки на комиссии: 10% Binance Futures, 20% Binance Spot](https://www.binance.com/en/register?ref=WO4MG0K0)*\n"
+    "   • *[Рейтинг Aivia \(с возможностью подключения\)](https://app.aivia.io/rankings/rNMXYTXvMb)*\n"
+    "   • *[TradingView](https://ru.tradingview.com/u/Ed_Khan/)*\n"
+    "   • *[Twitter](https://twitter.com/realedkhan)*")
+    await message.answer(msg_main, parse_mode=ParseMode.MARKDOWN_V2, disable_web_page_preview=True)
 
 
 # Code for Prize Handling
 @dp.message_handler(ChatTypeFilter('private'), Text(equals="🎁 Розыгрыш! 🎁"))
-async def participate_in_airdrop(message: types.Message):
+async def participate_in_airdrop(message: types.Message, call=False):
     prize = (await db.get_settings())['prize']
-    subscribed = await db.check_user_subscribed(message.from_user.id)
-    participating = await db.user_participating(message.from_user.id)
-    wallet = (await db.get_user_by_id(message.from_user.id))['address']
+    subscribed = await db.check_user_subscribed(message.chat.id)
+    participating = await db.user_participating(message.chat.id)
+    wallet = (await db.get_user_by_id(message.chat.id))['address']
     wallet_added = not wallet == None
     main_msg = ("🎁 Ежедневный розыгрыш от *[EK Cryptogallery](https://t.me/edkhan_cryptogallery)*\!\n\n"
                 f"Сегодняшний приз *{escape_md(prize)}* USDT\.\n\n"
                 f"Адрес твоего кошелька: *{wallet if wallet_added else 'не указан'}*")
-    await message.answer(main_msg, parse_mode=ParseMode.MARKDOWN_V2, reply_markup=await prize_main_kb(subscribed, participating, wallet_added))
+    if call:
+        await message.edit_text(main_msg, parse_mode=ParseMode.MARKDOWN_V2, reply_markup=await prize_main_kb(subscribed, participating, wallet_added), disable_web_page_preview=True)
+    else:
+        await message.answer(main_msg, parse_mode=ParseMode.MARKDOWN_V2, reply_markup=await prize_main_kb(subscribed, participating, wallet_added), disable_web_page_preview=True)
 
 @dp.callback_query_handler(ChatTypeFilter('private'), text="prize_rules")
 async def prize_rules(call: types.CallbackQuery):
@@ -78,7 +105,13 @@ async def prize_rules(call: types.CallbackQuery):
                 "*5️⃣* Если ты выиграл, тебе придёт сообщение с кнопкой забрать приз\.\n\n"
                 "*6️⃣* Убедись что кошелёк правильный, и не забудь что у тебя только 24 часа чтобы забрать приз\!"
     )
-    await call.message.edit_text(main_msg, parse_mode=ParseMode.MARKDOWN_V2)
+    await call.message.edit_text(main_msg, parse_mode=ParseMode.MARKDOWN_V2, disable_web_page_preview=True)
+    await call.message.edit_reply_markup(await back_to_prize_main())
+
+@dp.callback_query_handler(ChatTypeFilter('private'), text="back_to_prize_main")
+async def back_to_main(call: types.CallbackQuery):
+    await call.answer()
+    await participate_in_airdrop(call.message, True)
 
 @dp.callback_query_handler(ChatTypeFilter('private'), text="participate")
 async def participate_action(call: types.CallbackQuery):

@@ -58,7 +58,8 @@ class DBCommands:
             return False
 
     async def reset_rep_limits(self, limit):
-        await Users.update_many({}, {"$set": {"rep_limit": limit}})
+        from_date = datetime.fromtimestamp((datetime.now().timestamp() - (60*60*24*7)))
+        await Users.update_many({"$and": [{"custom_limit": {"$exists": False}}, {"createdAt": {"$lte": from_date}} ] }, {"$set": {"rep_limit": limit}})
 
     async def get_settings(self):
         settings = await Settings.find_one({})
@@ -180,3 +181,12 @@ class DBCommands:
             result_prizes.append(y)
         result = [result_users, result_prizes]
         return result
+
+    async def update_prize(self, amount):
+        await Settings.update_one({}, {"$set": {"prize": amount}})
+    
+    async def update_custom_limit(self, id, limit):
+        await Users.update_one({"_id": id}, {"$set": {"custom_limit": limit}})
+
+    async def reset_custom_limits(self):
+        await Users.update_many({"custom_limit": {"$exists": True}}, [{"$set": {"rep_limit": "$custom_limit"}}])

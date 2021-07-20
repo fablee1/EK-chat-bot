@@ -25,6 +25,14 @@ async def transfer_prize(add, amount):
     result = txb.broadcast().wait()
     return result
 
+async def get_add_bals(add):
+    client = Tron()
+    contract = client.get_contract("TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t")
+    trx_bal = round(client.get_account_balance(add), 0)
+    usdt_bal = round(contract.functions.balanceOf(add) / 10 ** 6, 2)
+    return [trx_bal, usdt_bal]
+    
+
 async def check_all_subscribed(participants):
     legit_participants = []
     for participant in participants:

@@ -1,6 +1,6 @@
 #!venv/bin/python
 import logging
-from utils.apscheduler import start_apscheduler
+from utils.scheduler import start_apscheduler
 import handlers
 from aiogram import executor
 from aiogram.utils.executor import start_webhook
