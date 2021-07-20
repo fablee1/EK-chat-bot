@@ -22,7 +22,7 @@ def main():
     start_webhook(
         dispatcher=dp,
         webhook_path=WEBHOOK_PATH,
-        skip_updates=True,
+        skip_updates=False,
         on_startup=on_startup,
         host=WEBAPP_HOST,
         port=WEBAPP_PORT,
@@ -30,4 +30,4 @@ def main():
 
 
 if __name__ == "__main__":
-    executor.start_polling(dp, on_startup=on_startup_dev, skip_updates=True)
+    executor.start_polling(dp, on_startup=on_startup_dev, skip_updates=False)
