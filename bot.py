@@ -13,7 +13,7 @@ async def on_startup(dp):
         'Starting connection. ')
     await bot.set_webhook(WEBHOOK_URL)
     print(await bot.get_webhook_info())
-    # await start_apscheduler()
+    await start_apscheduler()
 
 
 async def on_startup_dev(dp):
