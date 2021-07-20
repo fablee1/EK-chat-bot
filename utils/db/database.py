@@ -190,3 +190,10 @@ class DBCommands:
 
     async def reset_custom_limits(self):
         await Users.update_many({"custom_limit": {"$exists": True}}, [{"$set": {"rep_limit": "$custom_limit"}}])
+
+    async def get_rep_top(self):
+        top_reps = Users.find({}).sort("reputation", -1).limit(10)
+        reps_list = []
+        async for rep in top_reps:
+            reps_list.append(rep)
+        return reps_list

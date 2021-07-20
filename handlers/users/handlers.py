@@ -15,14 +15,17 @@ db = DBCommands()
 @dp.message_handler(ChatTypeFilter('private'), commands=["start"])
 async def start(message: types.Message):
     await db.get_user(message.from_user)
-    await message.answer(f"Привет, {message.from_user.full_name}! Приветствуем тебя в официальном боте чата @ek_cryptogallery_chat", reply_markup=await main_kb())
+    await message.answer(escape_md(f"👋 Привет, {message.from_user.full_name}!\n\n") + "🤖 Приветствуем тебя в официальном боте [Чата CryptoGallery](https://t.me/ek_cryptogallery_chat)" + escape_md("\n\n📊 Здесь ты можешь отследить свою репутацию, поучаствовать в розыгрышах и узнать граали трейдинга от @Ed_Khan"), reply_markup=await main_kb(), parse_mode=ParseMode.MARKDOWN_V2, disable_web_page_preview=True)
 
 @dp.message_handler(ChatTypeFilter('private'), Text(equals="📈 Мой рейтинг 📈"))
 async def get_rating(message: types.Message):
     user_data = await db.get_user(message.from_user)
     if user_data:
-        msg = f"Твоя репутация: {user_data.get('reputation', 'нет данных')}\nОтдано репутации: {user_data.get('rep_given', 'нет данных')}\nОсталось очков отдать сегодня: {user_data.get('rep_limit', 'нет данных')}"
-        await message.answer(msg)
+        msg = f"🥇 Твоя Репутация: {user_data.get('reputation', 'нет данных')}\n\n🎖 Отдано Репутации: {user_data.get('rep_given', 'нет данных')}\n\n🎗 Осталось отдать Репутации сегодня: {user_data.get('rep_limit', 'нет данных')}\n\n\n🏆 ТОП 10 по Репутации в Чате:"
+        rep_top = await db.get_rep_top()
+        msg_top = "".join(map(lambda x, y: f"   {y}. @{x['username']}\n", rep_top, range(1, len(rep_top)+1)))
+        f_msg = msg + '\n' + msg_top
+        await message.answer(f_msg)
     else:
         await message.answer("Невозможно получить статистику сейчас, попробуйте позже!")
 
@@ -31,7 +34,7 @@ async def get_rating(message: types.Message):
 @dp.message_handler(ChatTypeFilter('private'), Text(equals="ℹ Условия ℹ"))
 async def get_terms(message: types.Message):
     msg_main = (escape_md("🎖 Получай и отдавай баллы Репутации за общение в Чате! 🙌\n"
-    "Раз в сутки каждому участнику Чата даётся 3 балла репутации – чтобы проголосовать ими за понравившийся контент или годные мысли 😎\n\n") +
+    "Раз в сутки каждому участнику Чата даётся 3 балла Репутации – чтобы проголосовать ими за понравившийся контент или годные мысли 😎\n\n") +
     "➕ *Для этого достаточно написать '\+' \(плюсик\) в ответ на понравившееся сообщение\.*\n"
     + escape_md("⚙️ Система удалит твой плюсик через пару секунд, рейтинг автора понравившегося сообщения повысится на +1 балл.\n"
     "❗️ Копить баллы или тратить на себя нельзя.\n"
@@ -86,7 +89,7 @@ async def participate_in_airdrop(message: types.Message, call=False):
     participating = await db.user_participating(message.chat.id)
     wallet = (await db.get_user_by_id(message.chat.id))['address']
     wallet_added = not wallet == None
-    main_msg = ("🎁 Ежедневный розыгрыш от *[EK Cryptogallery](https://t.me/edkhan_cryptogallery)*\!\n\n"
+    main_msg = ("🎁 Ежедневный розыгрыш от *[EK CryptoGallery](https://t.me/edkhan_cryptogallery)*\!\n\n"
                 f"Сегодняшний приз *{escape_md(prize)}* USDT\.\n\n"
                 f"Адрес твоего кошелька: *{wallet if wallet_added else 'не указан'}*")
     if call:
