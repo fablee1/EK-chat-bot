@@ -1,4 +1,4 @@
-async def set_hook():
+def set_hook():
     import asyncio
     from data.config import HEROKU_APP_NAME, WEBHOOK_URL
     from load_all import bot
@@ -11,8 +11,9 @@ async def set_hook():
         print(await bot.get_webhook_info())
 
     asyncio.run(hook_set())
-    await bot.close()
+    bot.close()
 
 
 if __name__ == "__main__":
-    set_hook()
+    from bot import main
+    main()
