@@ -1,4 +1,5 @@
 
+import datetime
 from keyboards.admins.admins_kb import to_bot_kb
 from data.config import DB_CONN, MAIN_CHAT_ID
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
@@ -24,6 +25,9 @@ async def reset_limit():
 async def reset_custom_limits():
     await db.reset_custom_limits()
 
+async def delete_msg(msg):
+    await msg.delete()
+
 def get_job(id):
     job = scheduler.get_job(id)
     return job
@@ -34,6 +38,9 @@ def get_next_run_time(id):
 
 def add_prize_job(function):
     scheduler.add_job(function, trigger='cron', hour=20, id="prize_job", replace_existing=True, misfire_grace_time=60*60*12)
+
+def add_delete_msg_job(msg):
+    scheduler.add_job(delete_msg, 'date', run_date=datetime.fromtimestamp(datetime.now().timestamp() + (60*60*2) + 10), args=[msg])
 
 async def remind_rep():
     msg = ("🥇 В нашем Чате действует система Репутации.\n\n"
