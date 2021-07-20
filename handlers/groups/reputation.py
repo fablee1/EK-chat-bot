@@ -34,7 +34,7 @@ async def increase_reputation(message: types.Message):
                     await message.answer(goal['message'].format(user=f"@{replied_to.username}", rep=replied_user['reputation']+1))
         else:
             m = await message.answer(f"🚨 @{m_from.username}, ты превысил лимит! 🚨")
-    await delete_message(m)
+    delete_message(m)
 
 @dp.message_handler(ChatTypeFilter(['group', 'supergroup']), content_types=types.ContentType.NEW_CHAT_MEMBERS)
 async def new_chat_member(message: types.Message):
