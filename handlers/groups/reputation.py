@@ -8,7 +8,6 @@ db = DBCommands()
 
 @dp.message_handler(ChatTypeFilter(['group', 'supergroup']), IsReplyFilter(True), Text(equals=["+"]))
 async def increase_reputation(message: types.Message):
-    await message.delete()
     m_from = message.from_user
     replied_to = message.reply_to_message.from_user
     if m_from.id == replied_to.id:
@@ -30,6 +29,7 @@ async def increase_reputation(message: types.Message):
                     await message.answer(goal['message'].format(user=f"@{replied_to.username}", rep=replied_user['reputation']+1))
         else:
             m = await message.answer(f"🚨 @{m_from.username}, ты превысил лимит! 🚨")
+    await message.delete()
     await asyncio.sleep(10)
     await m.delete()
 
