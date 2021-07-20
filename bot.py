@@ -12,6 +12,7 @@ async def on_startup(dp):
     logging.warning(
         'Starting connection. ')
     await bot.set_webhook(WEBHOOK_URL)
+    await start_apscheduler()
 
 
 async def on_startup_dev(dp):
@@ -19,7 +20,6 @@ async def on_startup_dev(dp):
 
 
 def main():
-    loop = asyncio.get_event_loop()
     executor.start_webhook(
         dispatcher=dp,
         webhook_path=WEBHOOK_PATH,
@@ -27,7 +27,6 @@ def main():
         on_startup=on_startup,
         host=WEBAPP_HOST,
         port=WEBAPP_PORT,
-        loop=loop
     )
 
 
