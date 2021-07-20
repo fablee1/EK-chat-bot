@@ -7,7 +7,7 @@ from pathlib import Path
 
 BOT_MODE = env.str("BOT_MODE", None)
 
-MAIN_CHAT_ID = -1001320961407
+MAIN_CHAT_ID = -592864500
 TO_SUBSCRIBE = [-1001320961407]
 
 TOKEN = env.str("TOKEN")
