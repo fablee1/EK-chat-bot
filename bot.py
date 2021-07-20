@@ -12,6 +12,7 @@ async def on_startup(dp):
     logging.warning(
         'Starting connection. ')
     await bot.set_webhook(WEBHOOK_URL)
+    print(await bot.get_webhook_info())
     await start_apscheduler()
 
 
