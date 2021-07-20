@@ -3,8 +3,7 @@ import asyncio
 import logging
 from utils.scheduler import start_apscheduler
 import handlers
-from aiogram.utils.executor import start_webhook
-from aiogram import executor
+from aiogram.utils.executor import start_webhook, start_polling
 from load_all import dp, bot
 from data.config import WEBHOOK_PATH, WEBAPP_HOST, WEBAPP_PORT, WEBHOOK_URL
 
@@ -12,7 +11,7 @@ from data.config import WEBHOOK_PATH, WEBAPP_HOST, WEBAPP_PORT, WEBHOOK_URL
 async def on_startup(dp):
     logging.warning(
         'Starting connection. ')
-    # await bot.set_webhook(WEBHOOK_URL)
+    await bot.set_webhook(WEBHOOK_URL)
     # print(await bot.get_webhook_info())
     await start_apscheduler()
 
@@ -22,7 +21,7 @@ async def on_startup_dev(dp):
 
 
 def main():
-    executor.start_webhook(
+    start_webhook(
         dispatcher=dp,
         webhook_path=WEBHOOK_PATH,
         skip_updates=True,
@@ -33,5 +32,5 @@ def main():
 
 
 if __name__ == "__main__":
-    executor.start_polling(dp, on_startup=on_startup_dev, skip_updates=False)
+    start_polling(dp, on_startup=on_startup_dev, skip_updates=False)
     # start_webhook(dp,"", host=WEBAPP_HOST, port=WEBAPP_PORT ,on_startup=on_startup)
