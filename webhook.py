@@ -1,6 +1,6 @@
 def set_hook():
     import asyncio
-    from config import HEROKU_APP_NAME, WEBHOOK_URL, TOKEN
+    from data.config import HEROKU_APP_NAME, WEBHOOK_URL, TOKEN
     from aiogram import Bot
     bot = Bot(token=TOKEN)
 

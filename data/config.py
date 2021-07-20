@@ -5,7 +5,7 @@ env.read_env()
 from pathlib import Path
 
 
-BOT_MODE = env.str("BOT_MODE")
+BOT_MODE = env.str("BOT_MODE", None)
 
 MAIN_CHAT_ID = -1001320961407
 TO_SUBSCRIBE = [-1001320961407]
