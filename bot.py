@@ -3,7 +3,6 @@ import logging
 from utils.scheduler import start_apscheduler
 import handlers
 from aiogram import executor
-from aiogram.utils.executor import start_webhook
 from load_all import dp, bot
 from data.config import WEBHOOK_PATH, WEBAPP_HOST, WEBAPP_PORT, WEBHOOK_URL
 
@@ -19,7 +18,7 @@ async def on_startup_dev(dp):
 
 
 def main():
-    start_webhook(
+    executor.start_webhook(
         dispatcher=dp,
         webhook_path=WEBHOOK_PATH,
         skip_updates=True,
