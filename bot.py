@@ -11,7 +11,7 @@ from data.config import WEBHOOK_PATH, WEBAPP_HOST, WEBAPP_PORT, WEBHOOK_URL
 async def on_startup(dp):
     logging.warning(
         'Starting connection. ')
-    await bot.set_webhook(WEBHOOK_URL, drop_pending_updates=True)
+    await bot.set_webhook(WEBHOOK_URL)
 
 
 async def on_startup_dev(dp):
