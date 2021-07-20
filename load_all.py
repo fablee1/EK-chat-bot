@@ -10,6 +10,6 @@ logging.basicConfig(format=u'%(filename)s [LINE:%(lineno)d] #%(levelname)-8s [%(
 
 storage = MemoryStorage()
 
-loop = asyncio.get_event_loop()
+
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot, storage=storage)

@@ -1,4 +1,5 @@
 #!venv/bin/python
+import asyncio
 import logging
 from utils.scheduler import start_apscheduler
 import handlers
@@ -18,6 +19,7 @@ async def on_startup_dev(dp):
 
 
 def main():
+    loop = asyncio.get_event_loop()
     executor.start_webhook(
         dispatcher=dp,
         webhook_path=WEBHOOK_PATH,
@@ -25,6 +27,7 @@ def main():
         on_startup=on_startup,
         host=WEBAPP_HOST,
         port=WEBAPP_PORT,
+        loop=loop
     )
 
 
