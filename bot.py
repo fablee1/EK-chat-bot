@@ -22,7 +22,7 @@ def main():
     start_webhook(
         dispatcher=dp,
         webhook_path=WEBHOOK_PATH,
-        skip_updates=False,
+        skip_updates=True,
         on_startup=on_startup,
         host=WEBAPP_HOST,
         port=WEBAPP_PORT,
