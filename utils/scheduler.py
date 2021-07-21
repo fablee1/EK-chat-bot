@@ -50,9 +50,10 @@ async def remind_prize():
 
 async def start_apscheduler():
     scheduler.start()
-    
+    scheduler.add_job(reset_limit, trigger='cron', hour=00, id="reset_reputation", replace_existing=True, misfire_grace_time=60*60*12)
+    scheduler.add_job(reset_custom_limits, trigger='cron', hour=00, id="reset_custom_limits", replace_existing=True, misfire_grace_time=60*60*12)
+    await reset_limit()
+    await reset_custom_limits()
 
-# scheduler.add_job(reset_custom_limits, trigger='cron', hour=00, id="reset_custom_limits", replace_existing=True, misfire_grace_time=60*60*12)
-# scheduler.add_job(reset_limit, trigger='cron', hour=00, id="reset_reputation", replace_existing=True, misfire_grace_time=60*60*12)
 # scheduler.add_job(remind_rep, trigger='cron', hour=13, id="remind_rep", replace_existing=True, misfire_grace_time=60*60*12)
 # scheduler.add_job(remind_prize, trigger='cron', hour=18, id="remind_prize", replace_existing=True, misfire_grace_time=60*60*12)
