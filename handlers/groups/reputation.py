@@ -6,12 +6,12 @@ from aiogram.dispatcher.filters.builtin import ChatTypeFilter, IsReplyFilter, Te
 
 db = DBCommands()
 
-async def del_msg(msg):
-    await asyncio.sleep(10)
-    await msg.delete()
-
 @dp.message_handler(ChatTypeFilter(['group', 'supergroup']), IsReplyFilter(True), text="+")
 async def chat_increase_reputation(message: types.Message):
+    try:
+        await message.delete()
+    except:
+        pass
     m_from = message.from_user
     replied_to = message.reply_to_message.from_user
     if m_from.id == replied_to.id:
@@ -33,11 +33,9 @@ async def chat_increase_reputation(message: types.Message):
                     await message.answer(goal['message'].format(user=f"@{replied_to.username}", rep=replied_user['reputation']+1))
         else:
             m = await message.answer(f"🚨 @{m_from.username}, ты превысил лимит! 🚨")
-    try:
-        await message.delete()
-    except:
-        pass
-    asyncio.run(del_msg(m))
+    await asyncio.sleep(5)
+    await m.delete()
+
 
 @dp.message_handler(ChatTypeFilter(['group', 'supergroup']), content_types=types.ContentType.NEW_CHAT_MEMBERS)
 async def new_chat_member(message: types.Message):
