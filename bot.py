@@ -33,4 +33,4 @@ if __name__ == "__main__":
     if BOT_MODE == "DEV":
         start_polling(dp, on_startup=on_startup_dev, skip_updates=False)
     elif BOT_MODE == "PROD":
-        start_webhook(dp, WEBHOOK_PATH, host=WEBAPP_HOST, port=WEBAPP_PORT ,on_startup=on_startup, retry_after=1)
+        start_webhook(dp, WEBHOOK_PATH, host=WEBAPP_HOST, port=WEBAPP_PORT ,on_startup=on_startup)
