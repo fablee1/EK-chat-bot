@@ -22,8 +22,6 @@ TRON_USDT_CONTRACT_ADD = env.str('TRON_USDT_CONTRACT_ADD')
 WEBHOOK_HOST = f'https://{HEROKU_APP_NAME}.herokuapp.com'
 WEBHOOK_PATH = f'/webhook/{TOKEN}'
 WEBHOOK_URL = f'{WEBHOOK_HOST}{WEBHOOK_PATH}'
-# WEBHOOK_PATH = ""
-# WEBHOOK_URL = "https://acab39fc7135.ngrok.io"
 
 # webserver settings
 WEBAPP_HOST = '0.0.0.0'
