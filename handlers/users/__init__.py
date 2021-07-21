@@ -1,1 +1,1 @@
-from handlers import dp
+from . import handlers

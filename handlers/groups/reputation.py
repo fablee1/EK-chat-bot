@@ -7,7 +7,7 @@ from aiogram.dispatcher.filters.builtin import ChatTypeFilter, IsReplyFilter, Te
 db = DBCommands()
 
 @dp.message_handler(ChatTypeFilter(['group', 'supergroup']), IsReplyFilter(True), text="+")
-async def increase_reputation(message: types.Message):
+async def chat_increase_reputation(message: types.Message):
     m_from = message.from_user
     replied_to = message.reply_to_message.from_user
     if m_from.id == replied_to.id:
