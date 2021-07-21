@@ -26,6 +26,7 @@ def main():
         on_startup=on_startup,
         host=WEBAPP_HOST,
         port=WEBAPP_PORT,
+        skip_updates=True
     )
 
 
