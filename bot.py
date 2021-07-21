@@ -1,9 +1,9 @@
 #!venv/bin/python
 import logging
 from utils.scheduler import start_apscheduler
-from handlers import dp
 from aiogram.utils.executor import start_webhook, start_polling
 from load_all import dp, bot
+from handlers import dp
 from data.config import BOT_MODE, WEBHOOK_PATH, WEBAPP_HOST, WEBAPP_PORT, WEBHOOK_URL
 
 

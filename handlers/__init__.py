@@ -1,3 +1,3 @@
-from . import groups
-from . import users
-from . import admins
+from groups import dp
+from users import dp
+from admins import dp
