@@ -33,7 +33,7 @@ async def chat_increase_reputation(message: types.Message):
                     await message.answer(goal['message'].format(user=f"@{replied_to.username}", rep=replied_user['reputation']+1))
         else:
             m = await message.answer(f"🚨 @{m_from.username}, ты превысил лимит! 🚨")
-    await asyncio.sleep(5)
+    await asyncio.sleep(20)
     await m.delete()
 
 
