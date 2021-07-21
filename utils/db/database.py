@@ -24,7 +24,7 @@ class DBCommands:
         except:
             user_in_chat = False
         if user_in_chat:
-            new_user = UserModel(user.id, user.full_name, user.username, datetime(2021, 1, 1)).__dict__
+            new_user = UserModel(user.id, user.full_name, user.username, limit=3, createdAt=datetime(2021, 1, 1)).__dict__
             user_new = await Users.insert_one(new_user)
         else:
             new_user = UserModel(user.id, user.full_name, user.username).__dict__

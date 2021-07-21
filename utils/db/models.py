@@ -2,13 +2,13 @@ from datetime import datetime
 
 
 class UserModel:
-    def __init__(self, id, full_name, username, createdAt=datetime.now()):
+    def __init__(self, id, full_name, username, limit=0, createdAt=datetime.now()):
         self._id = id
         self.full_name = full_name
         self.username = username
         self.reputation = 0
         self.rep_given = 0
-        self.rep_limit = 0
+        self.rep_limit = limit
         self.address = None
         self.admin = False
         self.createdAt = createdAt
