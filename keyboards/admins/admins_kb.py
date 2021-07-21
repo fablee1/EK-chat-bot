@@ -107,5 +107,5 @@ async def admin_prize_main_kb(running=False):
 # keyboard for chat msgs
 async def to_bot_kb():
     kb = InlineKeyboardMarkup()
-    kb.add(InlineKeyboardButton('🤖 Перейти в бота 🤖', url="https://t.me/ektest1bot"))
+    kb.add(InlineKeyboardButton('🤖 Перейти в бота 🤖', url="https://t.me/Eddie_EK_bot"))
     return kb
