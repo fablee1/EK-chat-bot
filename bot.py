@@ -1,11 +1,10 @@
 #!venv/bin/python
-import asyncio
 import logging
 from utils.scheduler import start_apscheduler
-import handlers
+from handlers import dp
 from aiogram.utils.executor import start_webhook, start_polling
 from load_all import dp, bot
-from data.config import WEBHOOK_PATH, WEBAPP_HOST, WEBAPP_PORT, WEBHOOK_URL
+from data.config import BOT_MODE, WEBHOOK_PATH, WEBAPP_HOST, WEBAPP_PORT, WEBHOOK_URL
 
 
 async def on_startup(dp):
@@ -24,7 +23,6 @@ def main():
     start_webhook(
         dispatcher=dp,
         webhook_path=WEBHOOK_PATH,
-        skip_updates=True,
         on_startup=on_startup,
         host=WEBAPP_HOST,
         port=WEBAPP_PORT,
@@ -32,5 +30,7 @@ def main():
 
 
 if __name__ == "__main__":
-    start_polling(dp, on_startup=on_startup_dev, skip_updates=False)
-    # start_webhook(dp,"", host=WEBAPP_HOST, port=WEBAPP_PORT ,on_startup=on_startup)
+    if BOT_MODE == "DEV":
+        start_polling(dp, on_startup=on_startup_dev, skip_updates=False)
+    elif BOT_MODE == "PROD":
+        start_webhook(dp, "", host=WEBAPP_HOST, port=WEBAPP_PORT ,on_startup=on_startup, retry_after=1)

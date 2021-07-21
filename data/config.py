@@ -31,6 +31,6 @@ WEBAPP_PORT = env.int('PORT', None)
 # WEBAPP_HOST = "127.0.0.1"
 # WEBAPP_PORT = 5000
 
-I18N_DOMAIN = 'ekchatbot'
-BASE_DIR = Path(__file__).parent
-LOCALES_DIR = BASE_DIR / 'locales'
+# I18N_DOMAIN = 'ekchatbot'
+# BASE_DIR = Path(__file__).parent
+# LOCALES_DIR = BASE_DIR / 'locales'

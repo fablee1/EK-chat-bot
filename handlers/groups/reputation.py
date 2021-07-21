@@ -1,5 +1,4 @@
 import asyncio
-from utils.scheduler import add_delete_msg_job
 from utils.db.database import DBCommands
 from aiogram import types
 from load_all import dp
@@ -7,7 +6,7 @@ from aiogram.dispatcher.filters.builtin import ChatTypeFilter, IsReplyFilter, Te
 
 db = DBCommands()
 
-@dp.message_handler(ChatTypeFilter(['group', 'supergroup']), IsReplyFilter(True), Text(equals=["+"]))
+@dp.message_handler(ChatTypeFilter(['group', 'supergroup']), IsReplyFilter(True), text="+")
 async def increase_reputation(message: types.Message):
     m_from = message.from_user
     replied_to = message.reply_to_message.from_user
@@ -31,7 +30,10 @@ async def increase_reputation(message: types.Message):
         else:
             m = await message.answer(f"🚨 @{m_from.username}, ты превысил лимит! 🚨")
     await message.delete()
-    add_delete_msg_job(m)
+    print('pre sleep')
+    await asyncio.sleep(10)
+    print("post sleep")
+    await m.delete()
 
 @dp.message_handler(ChatTypeFilter(['group', 'supergroup']), content_types=types.ContentType.NEW_CHAT_MEMBERS)
 async def new_chat_member(message: types.Message):
