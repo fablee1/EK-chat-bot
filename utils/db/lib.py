@@ -11,7 +11,7 @@ def check_valid_tron_address(add):
     return False
 
 def to_number_emoji(num):
-    emojis = '0️⃣1️⃣2️⃣3️⃣4️⃣5️⃣6️⃣7️⃣8️⃣9️⃣'
+    emojis = ['0️⃣','1️⃣','2️⃣','3️⃣','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣']
     result = ''
     for x in str(num):
         result += emojis[int(x)]
