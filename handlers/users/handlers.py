@@ -1,5 +1,5 @@
 from aiogram.dispatcher.storage import FSMContext
-from utils.db.lib import check_valid_tron_address
+from utils.db.lib import check_valid_tron_address, to_number_emoji
 from states.user_states import AddWallet
 
 from aiogram.types.message import ParseMode
@@ -23,7 +23,7 @@ async def get_rating(message: types.Message):
     if user_data:
         msg = f"🥇 Твоя Репутация: {user_data.get('reputation', 'нет данных')}\n\n🎖 Отдано Репутации: {user_data.get('rep_given', 'нет данных')}\n\n🎗 Осталось отдать Репутации сегодня: {user_data.get('rep_limit', 'нет данных')}\n\n\n🏆 ТОП 10 по Репутации в Чате:"
         rep_top = await db.get_rep_top()
-        msg_top = "".join(map(lambda x, y: f"   {y}. @{x['username']}\n", rep_top, range(1, len(rep_top)+1)))
+        msg_top = "".join(map(lambda x, y: f"   {to_number_emoji(y)}. @{x['username']} - {x['reputation']} реп.\n", rep_top, range(1, len(rep_top)+1)))
         f_msg = msg + '\n' + msg_top
         await message.answer(f_msg)
     else:

@@ -9,3 +9,10 @@ def check_valid_tron_address(add):
     if b58add[-4:] == h[:4]:
         return True
     return False
+
+def to_number_emoji(num):
+    emojis = '0️⃣1️⃣2️⃣3️⃣4️⃣5️⃣6️⃣7️⃣8️⃣9️⃣'
+    result = ''
+    for x in str(num):
+        result += emojis[int(x)]
+    return result
