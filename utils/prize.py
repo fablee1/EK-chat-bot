@@ -53,7 +53,9 @@ async def get_random_person(participants):
     return user
 
 async def send_chat_prize_msg(winner, trans=None, participant_count=0):
+    prize = (await db.get_settings()).get('prize')
     msg = ("🎁 Розыгрыш закончен! 🎁\n\n"
+            f"💵 Приз - {prize} USDT"
             f"🗿 Участвовало - {participant_count}\n"
             f"🙌 Поздравляем победителя - @{winner['username']}!\n"
             "💰 Проверь свой кошелёк\n\n"
