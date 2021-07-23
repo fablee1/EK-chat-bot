@@ -42,7 +42,7 @@ async def check_all_subscribed(participants):
                 legit_participants.append(participant)
         except:
             pass
-        await sleep(0.1)
+        await sleep(0.3)
     await db.check_pre_prize_draw(legit_participants)
     return legit_participants
 
@@ -55,7 +55,7 @@ async def get_random_person(participants):
 async def send_chat_prize_msg(winner, trans=None, participant_count=0):
     prize = (await db.get_settings()).get('prize')
     msg = ("🎁 Розыгрыш закончен! 🎁\n\n"
-            f"💵 Приз - {prize} USDT"
+            f"💵 Приз - {prize} USDT\n"
             f"🗿 Участвовало - {participant_count}\n"
             f"🙌 Поздравляем победителя - @{winner['username']}!\n"
             "💰 Проверь свой кошелёк\n\n"
