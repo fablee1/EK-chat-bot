@@ -38,7 +38,7 @@ async def check_all_subscribed(participants):
     for participant in participants:
         try:
             info = await bot.get_chat_member(MAIN_CHAT_ID, participant)
-            if not info['status'] == 'left':
+            if info['status'] == 'member':
                 legit_participants.append(participant)
         except:
             pass
