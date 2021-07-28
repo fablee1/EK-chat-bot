@@ -6,7 +6,7 @@ from aiogram.dispatcher.filters.builtin import ChatTypeFilter, IsReplyFilter, Te
 
 db = DBCommands()
 
-@dp.message_handler(ChatTypeFilter(['group', 'supergroup']), IsReplyFilter(True), text="+")
+@dp.message_handler(ChatTypeFilter(['group', 'supergroup']), IsReplyFilter(True), text="+", run_task=True)
 async def chat_increase_reputation(message: types.Message):
     try:
         await message.delete()
