@@ -15,7 +15,10 @@ Prizes = db.prizes
 
 class DBCommands:
     async def add_new_users(self, users):
-        await Users.insert_many([UserModel(user.id, user.full_name, user.username).__dict__ for user in users])
+        try:
+            await Users.insert_many([UserModel(user.id, user.full_name, user.username).__dict__ for user in users], ordered=False)
+        except:
+            pass
 
     async def add_new_user(self, user):
         user_in_chat = None

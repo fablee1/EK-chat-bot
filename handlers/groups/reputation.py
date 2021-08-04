@@ -8,7 +8,6 @@ db = DBCommands()
 
 @dp.message_handler(ChatTypeFilter(['group', 'supergroup']), IsReplyFilter(True), text="+", run_task=True)
 async def chat_increase_reputation(message: types.Message):
-    print("in handler")
     try:
         await message.delete()
     except:
@@ -40,10 +39,5 @@ async def chat_increase_reputation(message: types.Message):
 
 @dp.message_handler(ChatTypeFilter(['group', 'supergroup']), content_types=types.ContentType.NEW_CHAT_MEMBERS)
 async def new_chat_member(message: types.Message):
-    print("in handler add new users")
     new_users = message.new_chat_members
     await db.add_new_users(new_users)
-
-@dp.message_handler()
-async def test_all(message: types.Message):
-    print("in all handler" + str(message))
