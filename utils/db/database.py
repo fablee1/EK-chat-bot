@@ -133,7 +133,7 @@ class DBCommands:
         await Prizes.update_one({"status": "active"}, {"$push": {"participants": user_id}})
     
     async def check_pre_prize_draw(self, users):
-        await Prizes.update_one({"status": "active"}, {"$set": {"participants": users}})
+        await Prizes.update_one({"status": "active"}, {"$set": {"legit_participants": users}})
     
     async def get_all_participating_in_draw(self):
         participating = (await Prizes.find_one({"status": "active"}))['participants']
