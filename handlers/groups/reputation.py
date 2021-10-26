@@ -2,11 +2,12 @@ import asyncio
 from utils.db.database import DBCommands
 from aiogram import types
 from load_all import dp
-from aiogram.dispatcher.filters.builtin import ChatTypeFilter, IsReplyFilter, Text
+from aiogram.dispatcher.filters.builtin import ChatTypeFilter, IsReplyFilter, IDFilter
+from data.config import MAIN_CHAT_ID
 
 db = DBCommands()
 
-@dp.message_handler(ChatTypeFilter(['group', 'supergroup']), IsReplyFilter(True), text="+", run_task=True)
+@dp.message_handler(ChatTypeFilter(['group', 'supergroup']), IDFilter(chat_id=MAIN_CHAT_ID), IsReplyFilter(True), text="+", run_task=True)
 async def chat_increase_reputation(message: types.Message):
     try:
         await message.delete()
